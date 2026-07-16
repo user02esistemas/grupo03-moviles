@@ -1,0 +1,69 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: hotel_postgres
+    environment:
+      POSTGRES_DB: hotel_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: hotel_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@hotel.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  backend:
+    build:
+      context: .
+    container_name: hotel_backend
+    env_file:
+      - .env
+    environment:
+      PORT: 4000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: hotel_db
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      FRONTEND_URL: http://localhost:5173,http://localhost:8080
+      PUBLIC_FRONTEND_URL: http://localhost:5173
+    volumes:
+      - ./uploads:/app/uploads
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  flutter_web:
+    build:
+      context: ./hotel_casablanca_flutter
+      args:
+        API_URL: http://localhost:4000/api
+        GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    container_name: hotel_flutter_web
+    ports:
+      - "8080:80"
+      - "5173:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+
+volumes:
+  postgres_data:
+  pgadmin_data:

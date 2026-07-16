@@ -1,0 +1,10 @@
+[tool.pytest.ini_options]
+# asyncio_mode=auto: los tests async no necesitan decorador.
+asyncio_mode = "auto"
+testpaths = ["tests"]
+# Sin esto pytest solo pone tests/ en sys.path y no encuentra el paquete `app`.
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pago simulado - Hotel Casa Blanca</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 1.5rem;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #f4f5f7; color: #1c1e21;
+    }
+    .tarjeta {
+      background: #fff; border-radius: 14px; padding: 1.75rem;
+      box-shadow: 0 6px 24px rgba(0,0,0,.12); width: 100%; max-width: 380px;
+    }
+    .aviso {
+      background: #fff4e5; border: 1px solid #ffb74d; color: #7a4f01;
+      border-radius: 8px; padding: .6rem .75rem; font-size: .8rem; margin-bottom: 1.25rem;
+    }
+    h1 { font-size: 1.15rem; margin: 0 0 1.25rem; }
+    dl { margin: 0 0 1.5rem; }
+    .fila { display: flex; justify-content: space-between; padding: .5rem 0; border-bottom: 1px solid #eceef0; }
+    .fila:last-child { border-bottom: 0; }
+    dt { color: #65676b; font-size: .875rem; margin: 0; }
+    dd { margin: 0; font-weight: 600; font-size: .875rem; }
+    .monto { font-size: 1.6rem; font-weight: 700; text-align: center; margin: 0 0 1.5rem; }
+    .acciones { display: grid; gap: .6rem; }
+    button {
+      padding: .8rem; border: 0; border-radius: 8px; font-size: .95rem;
+      font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .pagar { background: #009ee3; color: #fff; }
+    .pagar:hover { background: #0089c7; }
+    .rechazar { background: #f0f2f5; color: #444; }
+    .rechazar:hover { background: #e4e6eb; }
+    button:disabled { opacity: .6; cursor: progress; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #18191a; color: #e4e6eb; }
+      .tarjeta { background: #242526; box-shadow: 0 6px 24px rgba(0,0,0,.4); }
+      .fila { border-bottom-color: #3a3b3c; }
+      dt { color: #b0b3b8; }
+      .rechazar { background: #3a3b3c; color: #e4e6eb; }
+      .aviso { background: #3a2f1b; border-color: #8a6d3b; color: #ffd08a; }
+    }
+  </style>
+</head>
+<body>
+  <main class="tarjeta">
+    <p class="aviso">
+      <strong>Pasarela simulada.</strong> Reemplaza a Mercado Pago para la demo local.
+      No se mueve dinero real.
+    </p>
+
+    <h1>Pago de tu reserva</h1>
+
+    <p class="monto">S/ {{ monto }}</p>
+
+    <dl>
+      <div class="fila"><dt>Reserva</dt><dd>{{ codigo_reserva }}</dd></div>
+      <div class="fila"><dt>Habitacion</dt><dd>{{ numero_habitacion }}</dd></div>
+      <div class="fila"><dt>N.o de pago</dt><dd>#{{ id_pago }}</dd></div>
+    </dl>
+
+    <div class="acciones">
+      <button class="pagar" onclick="enviar(true)">Pagar S/ {{ monto }}</button>
+      <button class="rechazar" onclick="enviar(false)">Simular pago rechazado</button>
+    </div>
+  </main>
+
+  <script>
+    async function enviar(pagado) {
+      document.querySelectorAll("button").forEach(b => b.disabled = true);
+      await fetch("{{ url_resultado }}", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pagado: pagado })
+      });
+      // La app detecta cualquier URL que contenga /pagos/retorno en el WebView
+      // para cerrarlo y pasar a la pantalla de resultado. El status de la URL es
+      // solo una senal: el estado real lo fija aplicar_resultado en el backend.
+      window.location.href = "{{ url_retorno }}" + (pagado ? "PAID" : "UNPAID");
+    }
+  </script>
+</body>
+</html>

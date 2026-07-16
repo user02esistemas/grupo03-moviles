@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16
+    container_name: hotel_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TZ: ${TZ}
+    ports:
+      - "5432:5432"
+    volumes:
+      # Datos persistentes.
+      - pgdata:/var/lib/postgresql/data
+      # Scripts *.sql de esta carpeta se ejecutan en orden alfabetico
+      # SOLO la primera vez que se crea el volumen (base vacia):
+      #   01_schema.sql            -> tu esquema completo
+      #   02_pago_mercadopago.sql  -> columna referencia_externa (MP Opcion A)
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    container_name: hotel_api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      # Montamos el codigo para hot-reload en desarrollo.
+      - ./app:/code/app
+      # Los tests y su configuracion no van en la imagen (el Dockerfile solo
+      # copia ./app); se montan para poder correr:
+      #   docker compose exec api pytest -v
+      - ./tests:/code/tests
+      - ./pyproject.toml:/code/pyproject.toml
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+
+volumes:
+  pgdata:

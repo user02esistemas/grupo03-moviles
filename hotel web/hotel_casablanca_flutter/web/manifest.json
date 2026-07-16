@@ -1,0 +1,12 @@
+{
+  "name": "Hotel Casa Blanca",
+  "short_name": "Casa Blanca",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#EAE3D9",
+  "theme_color": "#4A3C31",
+  "description": "Catalogo y reservas del Hotel Casa Blanca",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": []
+}

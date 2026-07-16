@@ -1,0 +1,11 @@
+node_modules/
+hotel-casablanca-frontend/node_modules/
+dist/
+hotel-casablanca-frontend/dist/
+.env
+hotel-casablanca-frontend/.env
+uploads/*
+!uploads/.gitkeep
+!uploads/rooms/
+!uploads/rooms/*
+npm-debug.log*
