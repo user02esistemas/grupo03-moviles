@@ -3,12 +3,12 @@ Acceso a datos de `habitacion`, incluida la busqueda por disponibilidad.
 """
 from datetime import date
 
-from sqlalchemy import func, select
+from sqlalchemy import exists, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.core.enums import EstadoHabitacion, EstadoReserva
-from app.models import Habitacion, Reserva, TipoHabitacion
+from app.models import Habitacion, HabitacionImagen, Reserva, Servicio, TipoHabitacion
 
 # Rango de fechas de una reserva, con la MISMA notacion que el EXCLUDE
 # reserva_sin_solapamiento: '[)' incluye el dia de ingreso y excluye el de
@@ -32,6 +32,88 @@ async def get_by_id(session: AsyncSession, id_habitacion: int) -> Habitacion | N
     return await session.scalar(
         _con_relaciones().where(Habitacion.id_habitacion == id_habitacion)
     )
+
+
+async def get_imagen_by_id(session: AsyncSession, id_imagen: int) -> HabitacionImagen | None:
+    stmt = (
+        select(HabitacionImagen)
+        .options(selectinload(HabitacionImagen.habitacion))
+        .where(HabitacionImagen.id_imagen == id_imagen)
+    )
+    return await session.scalar(stmt)
+
+
+async def get_tipo_by_id(session: AsyncSession, id_tipo: int) -> TipoHabitacion | None:
+    stmt = (
+        select(TipoHabitacion)
+        .options(selectinload(TipoHabitacion.servicios))
+        .where(TipoHabitacion.id_tipo == id_tipo)
+    )
+    return await session.scalar(stmt)
+
+
+async def listar_tipos(session: AsyncSession) -> list[TipoHabitacion]:
+    stmt = (
+        select(TipoHabitacion)
+        .options(selectinload(TipoHabitacion.servicios))
+        .order_by(TipoHabitacion.nombre_tipo)
+    )
+    return list((await session.scalars(stmt)).all())
+
+
+async def get_servicio_by_id(session: AsyncSession, id_servicio: int) -> Servicio | None:
+    return await session.scalar(select(Servicio).where(Servicio.id_servicio == id_servicio))
+
+
+async def listar_servicios(session: AsyncSession) -> list[Servicio]:
+    stmt = select(Servicio).order_by(Servicio.nombre)
+    return list((await session.scalars(stmt)).all())
+
+
+async def servicios_por_ids(session: AsyncSession, ids_servicio: list[int]) -> list[Servicio]:
+    if not ids_servicio:
+        return []
+    stmt = select(Servicio).where(Servicio.id_servicio.in_(ids_servicio)).order_by(Servicio.id_servicio)
+    return list((await session.scalars(stmt)).all())
+
+
+async def tiene_reservas(session: AsyncSession, id_habitacion: int) -> bool:
+    stmt = select(
+        exists().where(
+            Reserva.id_habitacion == id_habitacion,
+            Reserva.deleted_at.is_(None),
+        )
+    )
+    return bool(await session.scalar(stmt))
+
+
+async def tipo_tiene_habitaciones(session: AsyncSession, id_tipo: int) -> bool:
+    stmt = select(exists().where(Habitacion.id_tipo == id_tipo))
+    return bool(await session.scalar(stmt))
+
+
+def agregar_habitacion(session: AsyncSession, habitacion: Habitacion) -> Habitacion:
+    session.add(habitacion)
+    return habitacion
+
+
+def agregar_imagen(session: AsyncSession, imagen: HabitacionImagen) -> HabitacionImagen:
+    session.add(imagen)
+    return imagen
+
+
+def agregar_tipo(session: AsyncSession, tipo: TipoHabitacion) -> TipoHabitacion:
+    session.add(tipo)
+    return tipo
+
+
+def agregar_servicio(session: AsyncSession, servicio: Servicio) -> Servicio:
+    session.add(servicio)
+    return servicio
+
+
+async def borrar(session: AsyncSession, instancia) -> None:
+    await session.delete(instancia)
 
 
 async def listar(

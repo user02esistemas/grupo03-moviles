@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingresar · Hotel Casa Blanca</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="login-page">
+    <form class="login-card" id="formLogin" novalidate>
+      <h1>Hotel Casa Blanca</h1>
+      <p class="sub">HOTEL & RETIRO</p>
+      <p class="login-note">Panel administrativo · acceso solo para personal</p>
+
+      <div class="form-row">
+        <label class="lbl" for="correo">Correo</label>
+        <input class="inp" type="email" id="correo" autocomplete="username" placeholder="recepcion@demo.com" />
+        <div class="campo-error"></div>
+      </div>
+
+      <div class="form-row">
+        <label class="lbl" for="password">Contraseña</label>
+        <input class="inp" type="password" id="password" autocomplete="current-password" placeholder="••••••••" />
+        <div class="campo-error"></div>
+      </div>
+
+      <button class="btn btn--primario btn--bloque" type="submit" id="btnEntrar" style="margin-top:6px">Ingresar</button>
+    </form>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/endpoints.js"></script>
+  <script src="js/catalogos.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

@@ -5,8 +5,11 @@ Carga la configuracion, aplica CORS, registra los handlers de error, expone los
 chequeos de salud y monta la API v1 bajo settings.api_v1_prefix (/api/v1).
 Las rutas concretas se declaran en app/api/v1/.
 """
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
 from app.api.v1.router import api_router
@@ -44,6 +47,13 @@ app.add_middleware(
 
 # Traduce nuestras excepciones de dominio a respuestas {detail}.
 register_exception_handlers(app)
+
+Path(settings.media_root_path).mkdir(parents=True, exist_ok=True)
+app.mount(
+    settings.media_url_prefix,
+    StaticFiles(directory=settings.media_root_path),
+    name="media",
+)
 
 
 @app.get("/health", tags=["infra"])

@@ -115,6 +115,12 @@ async def crear(
     return a_response(creada)
 
 
+async def crear_para_usuario(
+    session: AsyncSession, id_usuario: int, datos: ReservaCreate
+) -> ReservaResponse:
+    return await crear(session, id_usuario, datos)
+
+
 async def listar_mias(session: AsyncSession, id_usuario: int) -> list[ReservaResponse]:
     reservas = await repo.listar_de_usuario(session, id_usuario)
     return [a_response(r) for r in reservas]

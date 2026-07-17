@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalle de habitación · Casa Blanca</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="topbar">
+      <h1 id="tituloHab">Habitación</h1>
+      <a class="btn btn--ghost" href="habitaciones.html">← Volver</a>
+    </div>
+
+    <div class="content">
+      <div id="zonaDatos">
+        <div class="card"><div class="skeleton" style="width:40%;height:20px"></div></div>
+      </div>
+
+      <!-- Subir imágenes -->
+      <div class="card">
+        <h2 class="card__title">Imágenes de la habitación</h2>
+        <form id="formSubir" class="toolbar" novalidate>
+          <div class="form-row">
+            <label class="lbl" for="archivos">Archivos (JPG, PNG o WEBP · máx 5 MB c/u)</label>
+            <input class="inp" type="file" id="archivos" accept="image/jpeg,image/png,image/webp" multiple />
+          </div>
+          <div class="form-row">
+            <label class="lbl" style="display:flex;align-items:center;gap:6px;margin-top:22px">
+              <input type="checkbox" id="subirPrincipal" /> Marcar la primera como principal
+            </label>
+          </div>
+          <button class="btn btn--primario" type="submit" id="btnSubir">Subir imágenes</button>
+        </form>
+        <p class="form-hint">Solo una imagen puede ser principal por habitación.</p>
+
+        <div id="galeria" class="galeria" style="margin-top:16px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input oculto para reemplazar el archivo de una imagen -->
+  <input type="file" id="inputReemplazo" accept="image/jpeg,image/png,image/webp" class="hidden" />
+
+  <script src="js/config.js"></script>
+  <script src="js/endpoints.js"></script>
+  <script src="js/catalogos.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/habitacion-detalle.js"></script>
+</body>
+</html>

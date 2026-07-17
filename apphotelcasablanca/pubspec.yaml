@@ -64,6 +64,8 @@ dependencies:
   #--Igualdad por valor en entidades/estados
   equatable: ^2.0.7
 
+  flutter_launcher_icons: ^0.14.3
+
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +93,13 @@ flutter:
     - .env
     - assets/images/
     - assets/icons/
+
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icons/logo.png"
+  adaptive_icon_background: "#FFFFFF"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

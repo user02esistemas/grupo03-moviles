@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagos · Casa Blanca</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="topbar"><h1>Reporte de pagos</h1></div>
+
+    <div class="content">
+      <div class="card">
+        <div class="toolbar">
+          <div class="form-row">
+            <label class="lbl" for="desde">Desde</label>
+            <input class="inp" type="date" id="desde" />
+          </div>
+          <div class="form-row">
+            <label class="lbl" for="hasta">Hasta</label>
+            <input class="inp" type="date" id="hasta" />
+          </div>
+          <button class="btn btn--acento" id="btnConsultar">Consultar</button>
+          <button class="btn btn--ghost" id="btnHoy">Hoy</button>
+        </div>
+
+        <div class="grid-metricas" id="resumen" style="margin-bottom:18px">
+          <div class="metrica metrica--acento">
+            <div class="metrica__label">Total ingresos</div>
+            <div class="metrica__valor" id="mTotal">—</div>
+          </div>
+          <div class="metrica">
+            <div class="metrica__label">Cantidad de pagos</div>
+            <div class="metrica__valor" id="mCantidad">—</div>
+          </div>
+        </div>
+
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th>Reserva</th><th>Cliente</th><th class="num">Monto</th>
+                <th>Método</th><th>Estado</th><th>Fecha de pago</th>
+              </tr>
+            </thead>
+            <tbody id="pagosBody"></tbody>
+          </table>
+        </div>
+        <p class="form-hint">Solo los pagos en estado <strong>Pagado</strong> suman al total de ingresos.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/endpoints.js"></script>
+  <script src="js/catalogos.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/pagos.js"></script>
+</body>
+</html>

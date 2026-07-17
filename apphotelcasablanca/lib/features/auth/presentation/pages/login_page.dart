@@ -133,30 +133,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SocialButton(
-                              label: 'Google',
-                              loading: _cargandoGoogle,
-                              icon: const Icon(Icons.g_mobiledata, size: 28),
-                              onPressed: _google,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: SocialButton(
-                              label: 'Facebook',
-                              icon: const Icon(
-                                Icons.facebook,
-                                color: Color(0xFF1877F2),
-                              ),
-                              onPressed: () {
-                                // TODO: login con Facebook (futuro)
-                              },
-                            ),
-                          ),
-                        ],
+                      Center(
+                        child: SocialButton(
+                          label: 'Google',
+                          loading: _cargandoGoogle,
+                          icon: const Icon(Icons.g_mobiledata, size: 28),
+                          onPressed: _google,
+                        ),
                       ),
                     ],
                   ),

@@ -5,6 +5,7 @@ Lee las variables de entorno (o el archivo .env en desarrollo) y las expone
 tipadas. Se cachea con lru_cache para no re-parsear el entorno en cada import.
 """
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -50,6 +51,8 @@ class Settings(BaseSettings):
 
     # ---- CORS ----
     cors_origins: str = "*"
+    media_root: str = "media"
+    media_url_prefix: str = "/media"
 
     @property
     def is_development(self) -> bool:
@@ -62,6 +65,16 @@ class Settings(BaseSettings):
         if raw == "*":
             return ["*"]
         return [o.strip() for o in raw.split(",") if o.strip()]
+
+    @property
+    def media_root_path(self) -> Path:
+        return Path(self.media_root).resolve()
+
+    @property
+    def app_base_url(self) -> str:
+        if self.api_v1_prefix and self.api_base_url.endswith(self.api_v1_prefix):
+            return self.api_base_url[: -len(self.api_v1_prefix)]
+        return self.api_base_url.rstrip("/")
 
 
 @lru_cache

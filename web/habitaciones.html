@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habitaciones · Casa Blanca</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="topbar">
+      <h1>Habitaciones</h1>
+      <button class="btn btn--primario" id="btnNueva">＋ Nueva habitación</button>
+    </div>
+
+    <div class="content">
+      <!-- Consulta de disponibilidad -->
+      <div class="card">
+        <h2 class="card__title">Consultar disponibilidad por fechas</h2>
+        <div class="toolbar">
+          <div class="form-row">
+            <label class="lbl" for="dispIni">Ingreso</label>
+            <input class="inp" type="date" id="dispIni" />
+          </div>
+          <div class="form-row">
+            <label class="lbl" for="dispFin">Salida</label>
+            <input class="inp" type="date" id="dispFin" />
+          </div>
+          <div class="form-row">
+            <label class="lbl" for="dispPersonas">Personas</label>
+            <input class="inp" type="number" id="dispPersonas" min="1" value="1" style="width:110px" />
+          </div>
+          <button class="btn btn--acento" id="btnBuscarDisp">Buscar disponibles</button>
+          <button class="btn btn--ghost" id="btnLimpiarDisp">Limpiar</button>
+        </div>
+        <div id="dispResultado" class="hidden">
+          <div class="tabla-wrap">
+            <table class="tabla">
+              <thead><tr><th>N°</th><th>Tipo</th><th>Capacidad</th><th class="num">Precio/noche</th></tr></thead>
+              <tbody id="dispBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listado operativo -->
+      <div class="card">
+        <h2 class="card__title">Listado de habitaciones</h2>
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th>N°</th><th>Tipo</th><th class="num">Precio/noche</th>
+                <th class="num">Capacidad</th><th>Estado</th><th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="habBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal crear/editar habitación -->
+  <div class="modal-overlay" id="modalHab">
+    <div class="modal">
+      <div class="modal__head"><h3 id="modalHabTitulo">Nueva habitación</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <form id="formHab" novalidate>
+        <div class="modal__body">
+          <input type="hidden" id="habId" />
+          <div class="form-grid">
+            <div class="form-row">
+              <label class="lbl" for="habNumero">Número *</label>
+              <input class="inp" id="habNumero" maxlength="10" placeholder="101" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="habTipo">Tipo *</label>
+              <select class="inp" id="habTipo"></select>
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="habPrecio">Precio/noche (S/) *</label>
+              <input class="inp" type="number" id="habPrecio" min="0" step="0.01" placeholder="180.00" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="habCapacidad">Capacidad *</label>
+              <input class="inp" type="number" id="habCapacidad" min="1" step="1" placeholder="2" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row" id="rowEstado">
+              <label class="lbl" for="habEstado">Estado inicial</label>
+              <select class="inp" id="habEstado"></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="lbl" for="habDescripcion">Descripción</label>
+            <textarea class="inp" id="habDescripcion" placeholder="Vista al jardín, cama king…"></textarea>
+          </div>
+        </div>
+        <div class="modal__foot">
+          <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+          <button type="submit" class="btn btn--primario" id="btnGuardarHab">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal cambiar estado -->
+  <div class="modal-overlay" id="modalEstado">
+    <div class="modal" style="max-width:420px">
+      <div class="modal__head"><h3>Cambiar estado operativo</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <div class="modal__body">
+        <p class="muted" id="estadoHabInfo" style="margin-top:0"></p>
+        <div class="form-row">
+          <label class="lbl" for="nuevoEstado">Nuevo estado</label>
+          <select class="inp" id="nuevoEstado"></select>
+        </div>
+      </div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+        <button type="button" class="btn btn--primario" id="btnGuardarEstado">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/endpoints.js"></script>
+  <script src="js/catalogos.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/habitaciones.js"></script>
+</body>
+</html>

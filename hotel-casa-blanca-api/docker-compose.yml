@@ -38,6 +38,7 @@ services:
     volumes:
       # Montamos el codigo para hot-reload en desarrollo.
       - ./app:/code/app
+      - ./media:/code/media
       # Los tests y su configuracion no van en la imagen (el Dockerfile solo
       # copia ./app); se montan para poder correr:
       #   docker compose exec api pytest -v
@@ -49,5 +50,21 @@ services:
       --port 8000
       --reload
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_hotelcasablanca
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@casablanca.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+        
 volumes:
   pgdata:
+  pgadmin_data:

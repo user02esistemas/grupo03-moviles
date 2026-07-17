@@ -21,7 +21,7 @@ enum EstadoReserva {
         EstadoReserva.confirmada => 'Confirmada',
         EstadoReserva.cancelada => 'Cancelada',
         EstadoReserva.completada => 'Completada',
-        EstadoReserva.noShow => 'No show',
+        EstadoReserva.noShow => 'No se presentó',
       };
 
   static EstadoReserva fromId(int id) => switch (id) {

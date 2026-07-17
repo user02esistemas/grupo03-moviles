@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservas · Casa Blanca</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="topbar">
+      <h1>Reservas</h1>
+      <button class="btn btn--primario" id="btnNueva">＋ Nueva reserva</button>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="toolbar">
+          <div class="form-row">
+            <label class="lbl" for="filtroEstado">Filtrar por estado</label>
+            <select class="inp" id="filtroEstado" style="min-width:180px">
+              <option value="">Todos</option>
+            </select>
+          </div>
+          <button class="btn btn--ghost" id="btnRefrescar">↻ Refrescar</button>
+        </div>
+
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th>Código</th><th>Cliente</th><th>Hab.</th><th>Tipo</th>
+                <th>Ingreso</th><th>Salida</th><th class="num">Pers.</th>
+                <th class="num">Monto</th><th>Estado</th><th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="reservasBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal cambiar estado de reserva -->
+  <div class="modal-overlay" id="modalEstadoRes">
+    <div class="modal" style="max-width:440px">
+      <div class="modal__head"><h3>Cambiar estado de reserva</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <div class="modal__body">
+        <p class="muted" id="estadoResInfo" style="margin-top:0"></p>
+        <div class="form-row">
+          <label class="lbl" for="nuevoEstadoRes">Nuevo estado</label>
+          <select class="inp" id="nuevoEstadoRes"></select>
+          <div class="form-hint" id="sinTransiciones" style="display:none;color:var(--warn)">
+            Esta reserva está en un estado final y no admite más cambios.
+          </div>
+        </div>
+      </div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+        <button type="button" class="btn btn--primario" id="btnGuardarEstadoRes">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal nueva reserva -->
+  <div class="modal-overlay" id="modalNuevaRes">
+    <div class="modal modal--ancho">
+      <div class="modal__head"><h3>Nueva reserva</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <form id="formNuevaRes" novalidate>
+        <div class="modal__body">
+          <div class="form-row">
+            <label class="lbl" for="resCliente">Huésped *</label>
+            <select class="inp" id="resCliente"></select>
+            <div class="campo-error"></div>
+            <p class="form-hint">¿No aparece? Regístralo primero en <a href="clientes.html">Clientes</a>.</p>
+          </div>
+          <div class="form-grid">
+            <div class="form-row">
+              <label class="lbl" for="resIngreso">Ingreso *</label>
+              <input class="inp" type="date" id="resIngreso" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="resSalida">Salida *</label>
+              <input class="inp" type="date" id="resSalida" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="resPersonas">Personas *</label>
+              <input class="inp" type="number" id="resPersonas" min="1" value="1" />
+              <div class="campo-error"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <button type="button" class="btn btn--acento" id="btnBuscarHab">Buscar habitaciones disponibles</button>
+          </div>
+          <div class="form-row">
+            <label class="lbl" for="resHabitacion">Habitación disponible *</label>
+            <select class="inp" id="resHabitacion" disabled>
+              <option value="">Primero busca disponibilidad…</option>
+            </select>
+            <div class="campo-error"></div>
+          </div>
+        </div>
+        <div class="modal__foot">
+          <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+          <button type="submit" class="btn btn--primario" id="btnCrearRes" disabled>Crear reserva</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/endpoints.js"></script>
+  <script src="js/catalogos.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/reservas.js"></script>
+</body>
+</html>

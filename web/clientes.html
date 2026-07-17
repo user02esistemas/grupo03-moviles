@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clientes · Casa Blanca</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="topbar">
+      <h1>Clientes / huéspedes</h1>
+      <button class="btn btn--primario" id="btnNuevo">＋ Nuevo huésped</button>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="toolbar">
+          <div class="form-row" style="flex:1;min-width:220px">
+            <label class="lbl" for="buscar">Buscar</label>
+            <input class="inp" id="buscar" placeholder="Nombre, apellido o correo…" />
+          </div>
+          <button class="btn btn--acento" id="btnBuscar">Buscar</button>
+          <button class="btn btn--ghost" id="btnLimpiar">Limpiar</button>
+        </div>
+
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead>
+              <tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Acciones</th></tr>
+            </thead>
+            <tbody id="clientesBody"></tbody>
+          </table>
+        </div>
+
+        <div class="toolbar" style="margin-top:14px;margin-bottom:0">
+          <button class="btn btn--ghost btn--sm" id="btnPrev">← Anterior</button>
+          <span class="muted" id="pagInfo">Página 1</span>
+          <button class="btn btn--ghost btn--sm" id="btnNext">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal crear/editar cliente -->
+  <div class="modal-overlay" id="modalCliente">
+    <div class="modal">
+      <div class="modal__head"><h3 id="modalClienteTitulo">Nuevo huésped</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <form id="formCliente" novalidate>
+        <div class="modal__body">
+          <input type="hidden" id="cliId" />
+          <div class="form-grid">
+            <div class="form-row">
+              <label class="lbl" for="cliNombre">Nombre *</label>
+              <input class="inp" id="cliNombre" maxlength="60" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="cliApellido">Apellido *</label>
+              <input class="inp" id="cliApellido" maxlength="60" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="cliCorreo">Correo *</label>
+              <input class="inp" type="email" id="cliCorreo" />
+              <div class="campo-error"></div>
+            </div>
+            <div class="form-row">
+              <label class="lbl" for="cliTelefono">Teléfono</label>
+              <input class="inp" id="cliTelefono" maxlength="20" />
+              <div class="campo-error"></div>
+            </div>
+          </div>
+          <div class="form-row" id="rowPassword">
+            <label class="lbl" for="cliPassword">Contraseña</label>
+            <input class="inp" type="text" id="cliPassword" maxlength="128" placeholder="Mínimo 8 caracteres (opcional)" />
+            <div class="campo-error"></div>
+            <p class="form-hint">Si la dejas vacía, la API asigna una temporal (<code>Temporal123</code>).</p>
+          </div>
+        </div>
+        <div class="modal__foot">
+          <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+          <button type="submit" class="btn btn--primario" id="btnGuardarCli">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/endpoints.js"></script>
+  <script src="js/catalogos.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/clientes.js"></script>
+</body>
+</html>

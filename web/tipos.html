@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tipos y servicios · Casa Blanca</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="topbar"><h1>Tipos y servicios</h1></div>
+
+    <div class="content">
+      <!-- Tipos de habitación -->
+      <div class="card">
+        <div class="flex items-center" style="justify-content:space-between;margin-bottom:12px">
+          <h2 class="card__title mt-0">Tipos de habitación</h2>
+          <button class="btn btn--primario btn--sm" id="btnNuevoTipo">＋ Nuevo tipo</button>
+        </div>
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead><tr><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr></thead>
+            <tbody id="tiposBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Servicios -->
+      <div class="card">
+        <div class="flex items-center" style="justify-content:space-between;margin-bottom:12px">
+          <h2 class="card__title mt-0">Servicios</h2>
+          <button class="btn btn--primario btn--sm" id="btnNuevoServicio">＋ Nuevo servicio</button>
+        </div>
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead><tr><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr></thead>
+            <tbody id="serviciosBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal tipo -->
+  <div class="modal-overlay" id="modalTipo">
+    <div class="modal">
+      <div class="modal__head"><h3 id="modalTipoTitulo">Nuevo tipo</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <form id="formTipo" novalidate>
+        <div class="modal__body">
+          <input type="hidden" id="tipoId" />
+          <div class="form-row">
+            <label class="lbl" for="tipoNombre">Nombre *</label>
+            <input class="inp" id="tipoNombre" maxlength="60" placeholder="Doble, Suite…" />
+            <div class="campo-error"></div>
+          </div>
+          <div class="form-row">
+            <label class="lbl" for="tipoDescripcion">Descripción</label>
+            <textarea class="inp" id="tipoDescripcion"></textarea>
+          </div>
+        </div>
+        <div class="modal__foot">
+          <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+          <button type="submit" class="btn btn--primario" id="btnGuardarTipo">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal servicios de un tipo -->
+  <div class="modal-overlay" id="modalServiciosTipo">
+    <div class="modal">
+      <div class="modal__head"><h3 id="modalServiciosTipoTitulo">Servicios del tipo</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <div class="modal__body">
+        <p class="form-hint" style="margin-top:0">
+          Marca los servicios que incluye este tipo. Al guardar se <strong>reemplaza</strong> el conjunto actual.
+        </p>
+        <div id="checksServicios" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:8px"></div>
+      </div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+        <button type="button" class="btn btn--primario" id="btnGuardarServiciosTipo">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal servicio -->
+  <div class="modal-overlay" id="modalServicio">
+    <div class="modal">
+      <div class="modal__head"><h3 id="modalServicioTitulo">Nuevo servicio</h3><button class="modal__cerrar" data-cerrar>&times;</button></div>
+      <form id="formServicio" novalidate>
+        <div class="modal__body">
+          <input type="hidden" id="servicioId" />
+          <div class="form-row">
+            <label class="lbl" for="servicioNombre">Nombre *</label>
+            <input class="inp" id="servicioNombre" maxlength="60" placeholder="WiFi, TV cable…" />
+            <div class="campo-error"></div>
+          </div>
+          <div class="form-row">
+            <label class="lbl" for="servicioDescripcion">Descripción</label>
+            <textarea class="inp" id="servicioDescripcion"></textarea>
+          </div>
+        </div>
+        <div class="modal__foot">
+          <button type="button" class="btn btn--ghost" data-cerrar>Cancelar</button>
+          <button type="submit" class="btn btn--primario" id="btnGuardarServicio">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/endpoints.js"></script>
+  <script src="js/catalogos.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/tipos.js"></script>
+</body>
+</html>

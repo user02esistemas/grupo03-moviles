@@ -27,7 +27,7 @@ class MetricaCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icono, color: AppColors.dorado),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Text(
             valor,
             style: const TextStyle(

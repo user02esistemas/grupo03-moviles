@@ -1,9 +1,0 @@
-node_modules
-hotel_casablanca_flutter/.dart_tool
-hotel_casablanca_flutter/build
-hotel_casablanca_flutter/.flutter-plugins
-hotel_casablanca_flutter/.flutter-plugins-dependencies
-hotel_casablanca_flutter/pubspec.lock
-.git
-.env
-work

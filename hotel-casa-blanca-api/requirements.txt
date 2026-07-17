@@ -16,11 +16,12 @@ pyjwt[crypto]>=2.8          # access_token + refresh_token
 argon2-cffi>=23.1          # hash de contrasenas (argon2id)
 
 # ---- Integraciones externas ----
-google-auth>=2.30          # verificar id_token de Google (POST /auth/google)
+google-auth[requests]>=2.30        # verificar id_token de Google (POST /auth/google)
 httpx>=0.27                # llamadas async a la API de Mercado Pago
 
 # ---- Vistas ----
 jinja2>=3.1                # pagina minima de retorno (/pagos/retorno)
+python-multipart>=0.0.9    # multipart/form-data para subida de imagenes
 
 # ---- Desarrollo ----
 pytest>=8.2                # tests de humo (httpx ya sirve de cliente ASGI)
